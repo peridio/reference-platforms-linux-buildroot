@@ -1,0 +1,58 @@
+#!/bin/sh
+echo "Peridio initramfs"
+
+mount -t devtmpfs none /dev
+mount -t proc none /proc
+mount -t sysfs none /sys
+
+mkdir -p /run/lock
+
+# Wait for devices to become available
+ATTEMPTS=0
+MAX_WAIT=10
+
+find_boot_part() {
+	if findfs "LABEL=BOOT-A" > /dev/null; then
+		PERIDIO_BOOT="a"
+		export PERIDIO_BOOT
+		echo "A"
+	elif findfs "LABEL=BOOT-B" > /dev/null; then
+		PERIDIO_BOOT="b"
+		export PERIDIO_BOOT
+		echo "B"
+	fi
+}
+
+find_boot_part
+
+while [[ $ATTEMPTS -lt $MAX_WAIT ]] && [ -v $PERIDIO_BOOT ]; do
+        echo "Waiting for blkdev"
+        find_boot_part
+        sleep 1
+        let ATTEMPTS=ATTEMPTS+1
+done
+
+PERIDIO_ROOTFS_DEVPATH=$(fw_printenv -n ${PERIDIO_BOOT}.peridio_rootfs_part0_devpath)
+PERIDIO_ROOTFS_TYPE=$(fw_printenv -n ${PERIDIO_BOOT}.peridio_rootfs_part0_type)
+PERIDIO_PLATFORM_DEVPATH=$(fw_printenv -n ${PERIDIO_BOOT}.peridio_platform_part0_devpath)
+PERIDIO_PLATFORM_TYPE=$(fw_printenv -n ${PERIDIO_BOOT}.peridio_platform_part0_type)
+
+for dir in root rootfs platformfs overlay; do
+	mkdir -p /mnt/$dir
+done
+
+mount -t tmpfs -o size=10% tmpfs /mnt/overlay
+
+for dir in upper work; do
+	mkdir -p /mnt/overlay/$dir
+done
+
+mount -t $PERIDIO_ROOTFS_TYPE -o ro $PERIDIO_ROOTFS_DEVPATH /mnt/rootfs
+mount -t $PERIDIO_PLATFORM_TYPE $PERIDIO_PLATFORM_DEVPATH /mnt/platformfs
+mount -t overlay -o rw,lowerdir=/mnt/rootfs:/mnt/platformfs,upperdir=/mnt/overlay/upper,workdir=/mnt/overlay/work overlay /mnt/root
+
+umount /proc
+umount /sys
+umount /dev
+
+exec switch_root /mnt/root /sbin/init

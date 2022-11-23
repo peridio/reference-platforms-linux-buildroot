@@ -1,0 +1,3 @@
+[submodule "tools/buildroot-external-peridio"]
+	path = tools/buildroot-external-peridio
+	url = git@github.com:peridio/buildroot-external-peridio.git
