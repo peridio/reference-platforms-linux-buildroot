@@ -1,3 +1,4 @@
 {
-    "data-root": "/root/docker"
+    "data-root": "/root/docker",
+    "log-driver": "journald"
 }

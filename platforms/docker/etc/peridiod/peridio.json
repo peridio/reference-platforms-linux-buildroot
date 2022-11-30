@@ -7,12 +7,14 @@
   },
   "fwup": {
     "devpath": "/dev/mmcblk0",
-    "public_keys": []
+    "public_keys": ["AhXMp6jDJwOdkyS/phDsaRxoYLMKNxlYBrx6KB0rSDk="]
   },
   "remote_shell": true,
   "node": {
-    "key_pair_source": "file",
-    "certificate_path": "/etc/peridiod/device-cert.pem",
-    "private_key_path": "/etc/peridiod/device-key.pem"
+    "key_pair_source": "pkcs11",
+    "key_pair_config": {
+      "key_id": "pkcs11:token=MCHP;object=device;type=private",
+      "cert_id": "pkcs11:token=MCHP;object=device;type=cert"
+    }
   }
 }

@@ -1,4 +1,4 @@
-# Peridio Linux Reference pPlatform Build Container
+# Peridio Linux Reference Platform Build Container
 
 ## Building the container
 
