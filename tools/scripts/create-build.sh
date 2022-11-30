@@ -135,12 +135,18 @@ elif ! diff "$BUILDROOT_STATE_FILE" "$BUILDROOT_EXPECTED_STATE_FILE" >/dev/null;
     create_buildroot_dir
 fi
 
+# Merge the defconfig
+KCONFIG_CONFIG=$ABS_BUILD_DIR/defconfig
+KCONFIG_CONFIG=$KCONFIG_CONFIG \
+$BUILDROOT_DIR/support/kconfig/merge_config.sh -m \
+$ABS_DEFCONFIG $PERIDIO_EXTERNAL_PLATFORM/configs/peridio_platform_defconfig
+
 # Configure the build directory - finally!
 BUILDROOT_EXTERNAL="$PERIDIO_EXTERNAL_PLATFORM:$PERIDIO_EXTERNAL"
 
 make -C $BUILDROOT_DIR BR2_EXTERNAL=$BUILDROOT_EXTERNAL O=$ABS_BUILD_DIR \
-    BR2_DEFCONFIG=$ABS_DEFCONFIG \
-    DEFCONFIG=$ABS_DEFCONFIG \
+    BR2_DEFCONFIG=$KCONFIG_CONFIG \
+    DEFCONFIG=$KCONFIG_CONFIG \
     defconfig
 
 echo "------------"
