@@ -4,8 +4,8 @@
 # Create and initialize a directory for building a custom Buildroot.
 #
 # Inputs:
-#   $1 = the path to the configuration file (a _defconfig file)
-#   $2 = the build directory
+#   $1 = the build directory
+# . $n = the path to a configuration file (_defconfig file)
 #
 # Output:
 #   An initialized build directory on success
@@ -16,8 +16,8 @@ set -e
 
 BUILDROOT_VERSION=2022.08.1
 
-DEFCONFIG=$1
-BUILD_DIR=$2
+BUILD_DIR=$1
+DEFCONFIG=$2
 
 # "readlink -f" implementation for BSD
 # This code was extracted from the Elixir shell scripts
@@ -36,10 +36,6 @@ if [[ -z $DEFCONFIG ]]; then
     echo
     echo "  $0 <defconfig> [build directory]"
     exit 1
-fi
-
-if [[ -z $BUILD_DIR ]]; then
-    BUILD_DIR=o/$(basename -s _defconfig "$DEFCONFIG")
 fi
 
 # Create the build directory if it doesn't already exist
@@ -135,11 +131,11 @@ elif ! diff "$BUILDROOT_STATE_FILE" "$BUILDROOT_EXPECTED_STATE_FILE" >/dev/null;
     create_buildroot_dir
 fi
 
-# Merge the defconfig
+# Merge the defconfigs
+
 KCONFIG_CONFIG=$ABS_BUILD_DIR/defconfig
 KCONFIG_CONFIG=$KCONFIG_CONFIG \
-$BUILDROOT_DIR/support/kconfig/merge_config.sh -m \
-$ABS_DEFCONFIG $PERIDIO_EXTERNAL_PLATFORM/configs/peridio_platform_defconfig
+$BUILDROOT_DIR/support/kconfig/merge_config.sh -m ${*:2}
 
 # Configure the build directory - finally!
 BUILDROOT_EXTERNAL="$PERIDIO_EXTERNAL_PLATFORM:$PERIDIO_EXTERNAL"
