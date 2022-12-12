@@ -13,7 +13,7 @@ export VERSION=$(cat $VERSION)
 
 ```bash
 export INITRAMFS_ARCH=$(cat targets/$TARGET)
-./tools/scripts/create-build.sh o/initramfs-${INITRAMFS_ARCH} initramfs/${INITRAMFS_ARCH}_defconfig
+./tools/scripts/create-build.sh o/initramfs-${INITRAMFS_ARCH} initramfs/${INITRAMFS_ARCH}_defconfig tools/buildroot-external-peridio-platform/configs/peridio_initramfs_defconfig
 cd o/initramfs-${INITRAMFS_ARCH}
 make
 ```

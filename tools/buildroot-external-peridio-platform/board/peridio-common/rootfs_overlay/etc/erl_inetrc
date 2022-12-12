@@ -1,0 +1,21 @@
+%%
+%% Erlang's Inet configuration file.
+%%
+%% See http://erlang.org/doc/apps/erts/inet_cfg.html
+%%
+%% Seed inet's hosts table with the contents of `/etc/hosts`
+%% If you need to hardcode hosts into images, add them there
+%% so that non-Erlang programs can see them as well.
+{file, hosts, "/etc/hosts"}.
+
+%% Resolver parameters can also be seeded from the following files.
+%{file, resolv, "/etc/resolv.conf"}.
+%{file, nsswitch, "/etc/nsswitch.conf"}.
+
+%% Lookup sequence:
+%%
+%%  file -> check hosts table (contents of "/etc/hosts" by default)
+%%  dns  -> use Erlang's DNS resolver
+%%
+%% If you don't want to use Erlang's DNS resolver, specify "native" instead.
+{lookup, [file, dns]}.

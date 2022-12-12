@@ -1,0 +1,6 @@
+config BR2_PACKAGE_PERIDIO_INITRAMFS
+	bool "peridio-initramfs"
+	help
+	  An initramfs to enable overlayfs on Peridio Platforms.
+
+
