@@ -6,10 +6,10 @@ In this example we will build the `rpi4` target
 
 ```bash
 export TARGET=rpi4
-export VERSION=$(cat $VERSION)
+export VERSION=$(cat VERSION)
 ```
 
-* Build the initramfs by reading the INITRAMFS_ARCH file in the target directory
+- Build the initramfs by reading the INITRAMFS_ARCH file in the target directory
 
 ```bash
 export INITRAMFS_ARCH=$(cat targets/$TARGET)
