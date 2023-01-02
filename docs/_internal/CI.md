@@ -29,5 +29,5 @@ make
 Finally compress the `images` directory from the output to create the artifact
 
 ```bash
-tar cJ -C o/$TARGET -f peridio-reference-platform-$TARGET-$VERSION.xz images --transform "s/images/peridio-reference-platform-$TARGET-$VERSION/"
+tar cpJ -C o/$TARGET -f peridio-reference-platform-$TARGET-$VERSION.xz images --transform "s/^images/peridio-reference-platform-$TARGET-$VERSION/S"
 ```
