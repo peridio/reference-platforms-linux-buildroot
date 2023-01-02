@@ -1,4 +1,4 @@
-module: /usr/lib/libcryptoauth.so
+module: usr/lib/pkcs11/libtpm2_pkcs11.so
 critical: no
 trust-policy: yes
 managed: yes
