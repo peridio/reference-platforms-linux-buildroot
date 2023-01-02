@@ -22,6 +22,11 @@ find_mount_devpath() {
 	grep $1 /proc/mounts -m 1 | cut -d ' ' -f 1
 }
 
+shell() {
+    echo "Starting shell"
+    exec sh
+}
+
 # Wait for blkdev to mount the rootfs
 ATTEMPTS=0
 MAX_WAIT=10
@@ -34,6 +39,7 @@ while [[ $ATTEMPTS -lt $MAX_WAIT ]] && [[ -v $PERIDIO_BOOT ]]; do
 done
 
 # Read the variables from the UBoot env
+PERIDIO_INITRAMFS_SHELL=$(fw_printenv -n peridio_initramfs_shell)
 PERIDIO_DISK_DEVPATH=$(fw_printenv -n peridio_disk_devpath)
 PERIDIO_ROOTFS_DEVPATH=$(fw_printenv -n ${PERIDIO_BOOT}.peridio_rootfs_part0_devpath)
 PERIDIO_ROOTFS_TYPE=$(fw_printenv -n ${PERIDIO_BOOT}.peridio_rootfs_part0_type)
@@ -62,7 +68,9 @@ mount -t overlay -o rw,lowerdir=/mnt/platformfs:/mnt/rootfs,upperdir=/mnt/overla
 # Calculate the devpaths incase PARTUUID or LABEL is being used as devpath
 PERIDIO_ROOTFS_DEVPATH=$(find_mount_devpath /mnt/rootfs)
 PERIDIO_PLATFORMFS_DEVPATH=$(find_mount_devpath /mnt/platformfs)
-
+if [[ $PERIDIO_DISK_DEVPATH == UUID* ]]; then
+  PERIDIO_DISK_DEVPATH="${PERIDIO_ROOTFS_DEVPATH%%+([[:digit:]])}"
+fi
 # Save the environment for the new rootfs
 echo """
 PERIDIO_BOOT=${PERIDIO_BOOT}
@@ -83,8 +91,12 @@ echo "source /etc/environment" >> /mnt/root/etc/profile
 # systemd will initialize the partition if it fails to mount
 echo "${PERIDIO_DATAFS_DEVPATH} ${PERIDIO_DATAFS_TARGET} ${PERIDIO_DATAFS_TYPE} nodev,x-systemd.makefs 0 2" >> /mnt/root/etc/fstab
 
-umount /proc
-umount /sys
-umount /dev
+if [[ $PERIDIO_INITRAMFS_SHELL == "true" ]]; then
+	shell
+else
+	umount /proc
+	umount /sys
+	umount /dev
 
-exec switch_root /mnt/root /sbin/init
+	exec switch_root /mnt/root /sbin/init
+fi
