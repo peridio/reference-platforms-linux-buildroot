@@ -55,17 +55,17 @@ PERIDIO_PLATFORM_PLATFORMFS_PART_UUID=${PERIDIO_PLATFORM_PLATFORMFS_PART_UUID:-$
 PERIDIO_PLATFORM_DATA_PART_UUID=${PERIDIO_PLATFORM_DATA_PART_UUID:-$(uuidgen)}
 echo "Peridio Reference Platform Builder"
 echo ""
-echo "Metadata" 
+echo "Metadata"
 echo "  product:     $PERIDIO_PLATFORM_META_PRODUCT"
 echo "  version:     $PERIDIO_PLATFORM_META_VERSION"
-echo "  description: $PERIDIO_PLATFORM_META_DESCRIPTION" 
+echo "  description: $PERIDIO_PLATFORM_META_DESCRIPTION"
 echo "  author:      $PERIDIO_PLATFORM_META_AUTHOR"
 echo ""
 echo "Disk UUIDs"
 echo "  disk:        $PERIDIO_PLATFORM_DISK_UUID"
 echo "  boot:        $PERIDIO_PLATFORM_BOOT_PART_UUID"
 echo "  rootfs:      $PERIDIO_PLATFORM_ROOTFS_PART_UUID"
-echo "  platform:    $PERIDIO_PLATFORM_PLATFORMFS_PART_UUID" 
+echo "  platform:    $PERIDIO_PLATFORM_PLATFORMFS_PART_UUID"
 echo "  data:        $PERIDIO_PLATFORM_DATA_PART_UUID"
 echo ""
 echo "Creating revert script"
@@ -83,7 +83,7 @@ PERIDIO_PLATFORM_DATA_PART_UUID=$PERIDIO_PLATFORM_DATA_PART_UUID \
 $FWUP -c -f "$FWUP_REVERT_CONFIG" -o "$PLATFORMFS_DIR/usr/share/peridio/revert.fw"
 echo ""
 echo "Writing files to platformfs"
-$MKSQUASHFS "$PLATFORMFS_DIR" "$BINARIES_DIR/platformfs.squashfs" -noappend -no-recovery -no-progress -all-root -quiet -info -progress
+$MKSQUASHFS "$PLATFORMFS_DIR" "$BINARIES_DIR/platformfs.squashfs" -noappend -no-recovery -all-root -quiet -info -progress
 
 echo ""
 echo "Finished creating PlatformFS"
@@ -101,7 +101,7 @@ PERIDIO_PLATFORM_BOOT_PART_UUID=$PERIDIO_PLATFORM_BOOT_PART_UUID \
 PERIDIO_PLATFORM_ROOTFS_PART_UUID=$PERIDIO_PLATFORM_ROOTFS_PART_UUID \
 PERIDIO_PLATFORM_PLATFORMFS_PART_UUID=$PERIDIO_PLATFORM_PLATFORMFS_PART_UUID \
 PERIDIO_PLATFORM_DATA_PART_UUID=$PERIDIO_PLATFORM_DATA_PART_UUID \
-$FWUP -c -f "$FWUP_CONFIG" -o "$OUTPUT" 
+$FWUP -c -f "$FWUP_CONFIG" -o "$OUTPUT"
 
 echo ""
 echo "Done!"

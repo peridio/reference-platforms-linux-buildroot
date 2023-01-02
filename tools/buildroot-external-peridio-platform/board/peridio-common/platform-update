@@ -97,4 +97,4 @@ if [ "$(uname -s)" = "Darwin" ]; then
     fi
 fi
 
-cat $FILENAME | ssh $SSH_OPTIONS $DESTINATION 'fwup -a -U -d $PERIDIO_DISK_DEVPATH -t upgrade && reboot'
+cat $FILENAME | ssh $SSH_OPTIONS $DESTINATION 'source /etc/environment && fwup -a -U -d $PERIDIO_DISK_DEVPATH -t upgrade && reboot'
