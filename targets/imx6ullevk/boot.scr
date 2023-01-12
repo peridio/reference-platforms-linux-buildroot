@@ -1,0 +1,14 @@
+initrd_file=peridio-initramfs
+
+echo Loading initrd;
+fatload mmc ${mmcdev}:${mmcpart} ${initrd_addr} ${initrd_file};
+size mmc ${mmcdev}:${mmcpart} ${initrd_file};
+echo Loading tee;
+run findtee;
+run loadtee;
+echo Loading fdt;
+run findfdt;
+run loadfdt;
+echo Loading Image;
+run loadimage;
+bootm ${tee_addr} ${initrd_addr}:${filesize} ${fdt_addr};

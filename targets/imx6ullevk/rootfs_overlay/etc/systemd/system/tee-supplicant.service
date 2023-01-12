@@ -1,0 +1,11 @@
+[Unit]
+Description=Tee Supplicant
+
+[Service]
+Restart=on-failure
+RestartSec=5s
+ExecStart=/usr/sbin/tee-supplicant
+User=root
+
+[Install]
+WantedBy=multi-user.target
