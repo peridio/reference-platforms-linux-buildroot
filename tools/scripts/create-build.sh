@@ -88,13 +88,13 @@ if [[ -z $BUILDROOT_DL_DIR ]]; then
 fi
 
 PERIDIO_EXTERNAL=$(readlink_f "$BASE_DIR/../buildroot-external-peridio")
-PERIDIO_EXTERNAL_PLATFORM=$(readlink_f "$BASE_DIR/../buildroot-external-peridio-platform")
+PERIDIO_EXTERNAL_AVOCADO=$(readlink_f "$BASE_DIR/../buildroot-external-peridio-avocado")
 
 OUTPUT_DIR=$(readlink_f "$BUILD_DIR/..")
 BUILDROOT_DIR=$(readlink_f "$OUTPUT_DIR/buildroot")
 BUILDROOT_STATE_FILE=$OUTPUT_DIR/buildroot-$BUILDROOT_VERSION/.custom-project-br-state
 BUILDROOT_EXPECTED_STATE_FILE=$BUILD_DIR/.custom-project-expected-br-state
-"$BASE_DIR/buildroot-state.sh" $BUILDROOT_VERSION "$PERIDIO_EXTERNAL_PLATFORM/patches" > "$BUILDROOT_EXPECTED_STATE_FILE"
+"$BASE_DIR/buildroot-state.sh" $BUILDROOT_VERSION "$PERIDIO_EXTERNAL_AVOCADO/patches" > "$BUILDROOT_EXPECTED_STATE_FILE"
 
 create_buildroot_dir() {
     # Clean up any old versions of Buildroot
@@ -105,7 +105,7 @@ create_buildroot_dir() {
 
     # Apply patches
     echo $BUILDROOT_DIR
-    "$BUILDROOT_DIR/support/scripts/apply-patches.sh" "$BUILDROOT_DIR" "$PERIDIO_EXTERNAL_PLATFORM/patches/buildroot"
+    "$BUILDROOT_DIR/support/scripts/apply-patches.sh" "$BUILDROOT_DIR" "$PERIDIO_EXTERNAL_AVOCADO/patches/buildroot"
 
     if ! [[ -z $BUILDROOT_DL_DIR ]]; then
         # Symlink Buildroot's dl directory so that it can be cached between builds
@@ -137,7 +137,7 @@ KCONFIG_CONFIG=$KCONFIG_CONFIG \
 $BUILDROOT_DIR/support/kconfig/merge_config.sh -m ${*:2}
 
 # Configure the build directory - finally!
-BUILDROOT_EXTERNAL="$PERIDIO_EXTERNAL_PLATFORM:$PERIDIO_EXTERNAL"
+BUILDROOT_EXTERNAL="$PERIDIO_EXTERNAL_AVOCADO:$PERIDIO_EXTERNAL"
 
 make -C $BUILDROOT_DIR BR2_EXTERNAL=$BUILDROOT_EXTERNAL O=$ABS_BUILD_DIR \
     BR2_DEFCONFIG=$KCONFIG_CONFIG \

@@ -9,7 +9,7 @@ qemu-system-aarch64 \
       -device virtio-blk-device,drive=hd0 \
       -device virtio-net-device,netdev=eth0 \
       -device virtio-rng-device,rng=rng0 \
-      -drive file=peridio-reference-platform-qemu-aarch64.img,if=none,format=raw,id=hd0 \
+      -drive file=peridio-avocado-qemu-aarch64.img,if=none,format=raw,id=hd0 \
       -m 1024 \
       -netdev user,id=eth0,hostfwd=tcp::10022-:22 \
       -no-acpi \

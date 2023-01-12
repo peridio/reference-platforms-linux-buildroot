@@ -4,7 +4,7 @@
 #
 #############################################################
 
-PERIDIO_INITRAMFS_SITE = $(BR2_EXTERNAL_PERIDIO_PLATFORM_PATH)/package/peridio-initramfs
+PERIDIO_INITRAMFS_SITE = $(BR2_EXTERNAL_PERIDIO_AVOCADO_PATH)/package/peridio-initramfs
 PERIDIO_INITRAMFS_SITE_METHOD = local
 PERIDIO_INITRAMFS_LICENSE = Apache-2.0
 PERIDIO_INITRAMFS_INSTALL_IMAGES = YES

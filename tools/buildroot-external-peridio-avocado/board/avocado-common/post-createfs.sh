@@ -27,9 +27,8 @@ FWUP_REVERT_CONFIG=$3
 # it can be used to create images based on this one.
 cp -f "$FWUP_CONFIG" "$BINARIES_DIR"
 cp -f "$FWUP_REVERT_CONFIG" "$BINARIES_DIR"
-cp -f "$BR2_EXTERNAL_PERIDIO_PLATFORM_PATH/board/peridio-common/platform-build" "$BINARIES_DIR"
-cp -f "$BR2_EXTERNAL_PERIDIO_PLATFORM_PATH/board/peridio-common/platform-update" "$BINARIES_DIR"
-cp -f "$BR2_EXTERNAL_PERIDIO_PLATFORM_PATH/board/peridio-common/merge-squashfs" "$BINARIES_DIR"
+cp -f "$BR2_EXTERNAL_PERIDIO_AVOCADO_PATH/board/avocado-common/platform-build" "$BINARIES_DIR"
+cp -f "$BR2_EXTERNAL_PERIDIO_AVOCADO_PATH/board/avocado-common/platform-update" "$BINARIES_DIR"
 
 # CPIO /etc/fw_env.config for U-Boot env support in initramfs
 $(cd $PERIDIO_DEFCONFIG_DIR/rootfs_overlay && find etc/fw_env.config -depth | cpio -o -H newC --owner=root:root --reproducible | cat > $BINARIES_DIR/fw_env.config.cpio)

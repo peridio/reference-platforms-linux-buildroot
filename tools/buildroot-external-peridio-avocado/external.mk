@@ -1,5 +1,5 @@
 # Include Peridio reference platform specific packages
-include $(sort $(wildcard $(BR2_EXTERNAL_PERIDIO_PLATFORM_PATH)/package/*/*.mk))
+include $(sort $(wildcard $(BR2_EXTERNAL_PERIDIO_AVOCADO_PATH)/package/*/*.mk))
 
 # PERIDIO_DEFCONFIG_DIR is used to reference files in configurations
 # relative to wherever the _defconfig is stored.

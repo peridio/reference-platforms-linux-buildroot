@@ -1,4 +1,4 @@
-# Peridio Reference Platforms for Linux
+# Avocado
 
 ## v1.0.0-rc.1
 
